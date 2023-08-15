@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Piedra, Papel o Tijeras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .selections {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .selections button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Juego de Piedra, Papel o Tijeras</h1>
+        <div class="selections">
+            <button onclick="seleccionar('piedra')">Piedra</button>
+            <button onclick="seleccionar('papel')">Papel</button>
+            <button onclick="seleccionar('tijeras')">Tijeras</button>
+        </div>
+        <p id="message" class="result"></p>
+    </div>
+    
+    <script>
+        function seleccionar(opcionUsuario) {
+            const opciones = ["piedra", "papel", "tijeras"];
+            const opcionComputadora = opciones[Math.floor(Math.random() * 3)];
+            const message = document.getElementById("message");
+
+            const resultados = {
+                piedra: { tijeras: "Ganaste", papel: "Perdiste", piedra: "Empate" },
+                papel: { piedra: "Ganaste", tijeras: "Perdiste", papel: "Empate" },
+                tijeras: { papel: "Ganaste", piedra: "Perdiste", tijeras: "Empate" }
+            };
+
+            const resultado = resultados[opcionUsuario][opcionComputadora];
+            message.textContent = `Elegiste ${opcionUsuario}. La computadora eligió ${opcionComputadora}. Resultado: ${resultado}.`;
+        }
+    </script>
+</body>
+</html>

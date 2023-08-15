@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Ahorcado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hangman {
+            font-size: 30px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Juego del Ahorcado</h1>
+        <div class="hangman" id="hangmanDisplay">
+        </div>
+        <p>Ingresa una letra:</p>
+        <input type="text" id="letterInput">
+        <button onclick="verificarLetra()">Enviar Letra</button>
+        <p id="message"></p>
+    </div>
+    
+    <script>
+        const palabras = ['javascript', 'programacion', 'desarrollo', 'tecnologia', 'html', 'css'];
+        let palabraOculta = palabras[Math.floor(Math.random() * palabras.length)];
+        let letrasAdivinadas = [];
+        let intentosRestantes = 6;
+
+        const hangmanDisplay = document.getElementById("hangmanDisplay");
+        const letterInput = document.getElementById("letterInput");
+        const message = document.getElementById("message");
+
+        function mostrarPalabraAdivinada() {
+            let palabraMostrada = '';
+            for (const letra of palabraOculta) {
+                if (letrasAdivinadas.includes(letra)) {
+                    palabraMostrada += letra + ' ';
+                } else {
+                    palabraMostrada += '_ ';
+                }
+            }
+            hangmanDisplay.textContent = palabraMostrada;
+        }
+
+        function verificarLetra() {
+            const letra = letterInput.value.toLowerCase();
+
+            if (letrasAdivinadas.includes(letra)) {
+                message.textContent = "Ya adivinaste esa letra. Intenta con otra.";
+            } else {
+                letrasAdivinadas.push(letra);
+
+                if (palabraOculta.includes(letra)) {
+                    message.textContent = "¡Correcto! Adivinaste una letra.";
+                } else {
+                    intentosRestantes--;
+                    message.textContent = `Incorrecto. Te quedan ${intentosRestantes} intentos.`;
+                }
+
+                if (intentosRestantes === 0) {
+                    message.textContent = "¡Perdiste! La palabra era " + palabraOculta;
+                    letterInput.disabled = true;
+                }
+
+                mostrarPalabraAdivinada();
+
+                if (!hangmanDisplay.textContent.includes('_')) {
+                    message.textContent = "¡Felicidades! Adivinaste la palabra.";
+                    letterInput.disabled = true;
+                }
+            }
+
+            letterInput.value = '';
+        }
+
+        mostrarPalabraAdivinada();
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Adivinar el Número</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Juego de Adivinar el Número</h1>
+        <p>Adivina un número entre 1 y 100:</p>
+        <input type="number" id="guessInput">
+        <button onclick="verificarAdivinanza()">Enviar Adivinanza</button>
+        <p id="message"></p>
+    </div>
+    
+    <script>
+        const numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+        let intentos = 0;
+        
+        function verificarAdivinanza() {
+            const guessInput = document.getElementById("guessInput");
+            const message = document.getElementById("message");
+            const adivinanzaUsuario = parseInt(guessInput.value);
+            
+            if (isNaN(adivinanzaUsuario) || adivinanzaUsuario < 1 || adivinanzaUsuario > 100) {
+                message.textContent = "Por favor, ingresa un número válido entre 1 y 100.";
+            } else {
+                intentos++;
+                if (adivinanzaUsuario === numeroAleatorio) {
+                    message.textContent = `¡Felicidades! Adivinaste el número correcto en ${intentos} intentos.`;
+                    deshabilitarInputYBoton();
+                } else if (adivinanzaUsuario < numeroAleatorio) {
+                    message.textContent = "Intenta con un número más grande.";
+                } else {
+                    message.textContent = "Intenta con un número más pequeño.";
+                }
+            }
+        }
+        
+        function deshabilitarInputYBoton() {
+            const guessInput = document.getElementById("guessInput");
+            const botonEnviar = document.querySelector("button");
+            
+            guessInput.disabled = true;
+            botonEnviar.disabled = true;
+        }
+    </script>
+</body>
+</html>
+
